@@ -37,12 +37,6 @@ jobs:
           sudo apt update
           sudo apt install yq -y
 
-      - name: Install tools (for macOS)
-        if: matrix.os == 'macos-latest'
-        run: |
-          brew install coreutils
-          brew install yq
-
       - name: Checkout
         uses: actions/checkout@v2
         with:
