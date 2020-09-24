@@ -196,7 +196,9 @@ We're in! Get the user flag.
 
 # PrivEsc
 PrivEsc was a bit funky, I did not expect it to be so easy... this machine was a slap in the face if you try too hard.
+
 Thanks to `TheMayor`'s github repo we can download an already built `PrintSpoofer.exe` from here: [repo](https://github.com/dievus/printspoofer)
+
 Upload that to the SMB server as we did with the reverse shell and run it...
 ```shell
 c:\Users\Bob\Desktop>whoami
