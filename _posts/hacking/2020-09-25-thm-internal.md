@@ -190,3 +190,6 @@ nc -lnvp 85856
 Run the groovy script. We now have a reverse shell as Jenkins. This time I went straight to check the `/opt` directory to see if this machine has something else there... surprise, there's root credentials
 
 > ssh into the machine using the root credentials and get flag.
+
+# Conclusion
+Overall it was a nice machine with it's ups and downs and manual enumeration, or snooping around, was what got you to find the interesting info.
