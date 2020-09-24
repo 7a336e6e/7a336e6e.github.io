@@ -4,7 +4,7 @@ author: z3nn
 date: 2020-09-24 09:34:00 +0200
 categories: [Hacking, TryHackMe]
 description: TryHackMe Relevant Windows Box
-tags: [hackthebox, htb, magic, linux, offensive pentest]
+tags: [tryhackme, relevant, windows, offensive pentest, security, security missconfiguration, pentest]
 ---
 
 # TryHackMe - Relevant
