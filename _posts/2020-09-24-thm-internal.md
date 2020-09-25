@@ -1,7 +1,7 @@
 ---
 title: THM - Internal
 author: z3nn
-date: 2020-09-25 19:53:00 +0200
+date: 2020-09-24 19:53:00 +0200
 categories: [Hacking, TryHackMe]
 description: TryHackMe Internal Windows Box
 tags: [tryhackme, internal, windows, offensive pentest, security, security missconfiguration, pentest]
