@@ -4,7 +4,7 @@ from datetime import datetime
 delim = '---'
 
 title = input('Post title: ')
-filename = f'{datetime.now().strftime("%Y-%m-%d")}-{title.replace(" ", "-").lower()}.md'
+filename = f'{datetime.now().strftime("%Y-%m-%d")}-{title.replace("-", "").replace("  ", "-").lower()}.md'
 
 author = getpass.getuser()
 
