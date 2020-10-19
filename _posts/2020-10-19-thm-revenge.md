@@ -115,7 +115,6 @@ $ sqlmap -u http://10.10.17.246/products/1 --batch
 back-end DBMS: MySQL >= 5.0.12
 [21:52:21] [WARNING] HTTP error codes detected during run:
 405 (Method Not Allowed) - 1 times, 500 (Internal Server Error) - 80 times
-[21:52:21] [INFO] fetched data logged to text files under '/home/z3nn/.local/share/sqlmap/output/10.10.17.246'
 
 ```
 
