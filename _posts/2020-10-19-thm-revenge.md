@@ -1,5 +1,5 @@
 ---
-title: thm - revenge
+title: THM - Revenge
 description: write-up for the ducky room in thm
 author: z3nn
 date: 2020-10-19 22:17:34 +0300
